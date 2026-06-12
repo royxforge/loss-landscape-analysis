@@ -226,7 +226,7 @@ The result connects to broader themes in neural network design:
 @software{roy2025lossfunctionanalysis,
   author = {Roy, Sourav},
   title  = {Loss Function Analysis: MSE vs Cross-Entropy on Classification Tasks},
-  year   = {2025},
+  year   = {2026},
   url    = {https://github.com/royxlead/loss-function-analysis-python}
 }
 ```
