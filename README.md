@@ -1,4 +1,4 @@
-# Loss Function Analysis
+# Loss Landscape Analysis
 ### MSE vs Cross-Entropy on Classification Tasks
 
 <p align="left">
@@ -163,7 +163,7 @@ CE gradient norms decrease sharply (1.528 to 0.021) because the model has conver
 ## Repository Structure
 
 ```
-loss-function-analysis-python/
+loss-landscape-analysis/
 |
 +-- loss_analysis.ipynb    # Main experiment notebook (all 5 experiments)
 +-- requirements.txt
@@ -175,9 +175,11 @@ loss-function-analysis-python/
 
 ## Installation
 
+Repository: [royxlead/loss-landscape-analysis.git](https://github.com/royxlead/loss-landscape-analysis.git)
+
 ```bash
-git clone https://github.com/royxlead/loss-function-analysis-python.git
-cd loss-function-analysis-python
+git clone https://github.com/royxlead/loss-landscape-analysis.git
+cd loss-landscape-analysis
 
 pip install -r requirements.txt
 ```
@@ -223,11 +225,11 @@ The result connects to broader themes in neural network design:
 ## Citation
 
 ```bibtex
-@software{roy2025lossfunctionanalysis,
+@software{roy2025losslandscapeanalysis,
   author = {Roy, Sourav},
-  title  = {Loss Function Analysis: MSE vs Cross-Entropy on Classification Tasks},
+  title  = {Loss Landscape Analysis: MSE vs Cross-Entropy on Classification Tasks},
   year   = {2026},
-  url    = {https://github.com/royxlead/loss-function-analysis-python}
+  url    = {https://github.com/royxlead/loss-landscape-analysis}
 }
 ```
 

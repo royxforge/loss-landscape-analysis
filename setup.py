@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="loss-fn-analysis",
+    name="loss-landscape-analysis",
     version="1.0.0",
     description="Research project analyzing gradient behavior of MSE vs Cross-Entropy on MNIST",
     packages=find_packages(),

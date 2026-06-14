@@ -1,1 +1,1 @@
-"""Visualization utilities for loss function analysis."""
+"""Visualization utilities for loss landscape analysis."""

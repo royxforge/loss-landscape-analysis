@@ -346,7 +346,7 @@ def plot_summary_dashboard() -> Path:
         axes[2, 1].text(0.5, 0.5, "Missing Exp5 data", ha="center", va="center")
         axes[2, 2].text(0.5, 0.5, "Missing Exp5 data", ha="center", va="center")
 
-    fig.suptitle("Loss Function Analysis: Summary Dashboard")
+    fig.suptitle("Loss Landscape Analysis: Summary Dashboard")
     fig.tight_layout(rect=[0, 0.03, 1, 0.96])
     return _save_figure(fig, "summary_dashboard.png")
 

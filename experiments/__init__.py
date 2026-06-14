@@ -1,1 +1,1 @@
-"""Experiment scripts for loss function analysis."""
+"""Experiment scripts for loss landscape analysis."""

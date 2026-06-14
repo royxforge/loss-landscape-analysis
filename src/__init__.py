@@ -1,4 +1,4 @@
-"""Core package for loss function analysis."""
+"""Core package for loss landscape analysis."""
 
 from .data import get_small_batch, load_mnist
 from .losses import CrossEntropyLoss, MSELoss, log_softmax, softmax, to_one_hot
