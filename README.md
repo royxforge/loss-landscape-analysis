@@ -208,17 +208,17 @@ The result connects to broader themes in neural network design:
 
 **Activation function design** - ReLU replaced sigmoid/tanh partly because of gradient saturation in deep networks. The same saturation mechanism operates in the output layer when MSE is used with softmax.
 
-**Calibration** - CE loss is derived from maximum likelihood estimation under a categorical distribution, which produces better-calibrated probability outputs than MSE. This connects directly to the calibration analysis in [Self-Diagnosing Neural Models](https://github.com/royxlead/self-diagnosing-neural-models-python), where ECE (Expected Calibration Error) is a primary evaluation metric.
+**Calibration** - CE loss is derived from maximum likelihood estimation under a categorical distribution, which produces better-calibrated probability outputs than MSE. This connects directly to the calibration analysis in [Unsupervised Confidence Estimation](https://github.com/royxlead/unsupervised-confidence-estimation), where ECE (Expected Calibration Error) is a primary evaluation metric.
 
-**Production reliability** - A model trained with MSE may produce confidence scores that are less meaningful than one trained with CE. This is not just a training efficiency issue - it affects every downstream system that consumes model probabilities, including the drift and confidence monitoring in [DriftWatch](https://github.com/royxlead/driftwatch-python).
+**Production reliability** - A model trained with MSE may produce confidence scores that are less meaningful than one trained with CE. This is not just a training efficiency issue - it affects every downstream system that consumes model probabilities, including the drift and confidence monitoring in [Production Drift Detection](https://github.com/royxlead/production-drift-detection).
 
 ---
 
 ## Related Work
 
-- [Self-Diagnosing Neural Models](https://github.com/royxlead/self-diagnosing-neural-models-python) - How loss function choice affects calibration and uncertainty estimation
-- [DriftWatch](https://github.com/royxlead/driftwatch-python) - Production monitoring of model confidence signals
-- [Multi-Objective Feature Selection](https://github.com/royxlead/multi-objective-evolutionary-feature-selection-python) - Optimization in ML systems
+- [Unsupervised Confidence Estimation](https://github.com/royxlead/unsupervised-confidence-estimation) - How loss function choice affects calibration and uncertainty estimation
+- [Production Drift Detection](https://github.com/royxlead/production-drift-detection) - Production monitoring of model confidence signals
+- [Multi-Objective Feature Selection](https://github.com/royxlead/multi-objective-feature-selection) - Optimization in ML systems
 
 ---
 
