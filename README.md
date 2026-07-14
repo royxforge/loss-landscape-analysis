@@ -175,10 +175,10 @@ loss-landscape-analysis/
 
 ## Installation
 
-Repository: [royxlead/loss-landscape-analysis.git](https://github.com/royxlead/loss-landscape-analysis.git)
+Repository: [royxforge/loss-landscape-analysis.git](https://github.com/royxforge/loss-landscape-analysis.git)
 
 ```bash
-git clone https://github.com/royxlead/loss-landscape-analysis.git
+git clone https://github.com/royxforge/loss-landscape-analysis.git
 cd loss-landscape-analysis
 
 pip install -r requirements.txt
@@ -208,17 +208,17 @@ The result connects to broader themes in neural network design:
 
 **Activation function design** - ReLU replaced sigmoid/tanh partly because of gradient saturation in deep networks. The same saturation mechanism operates in the output layer when MSE is used with softmax.
 
-**Calibration** - CE loss is derived from maximum likelihood estimation under a categorical distribution, which produces better-calibrated probability outputs than MSE. This connects directly to the calibration analysis in [Unsupervised Confidence Estimation](https://github.com/royxlead/unsupervised-confidence-estimation), where ECE (Expected Calibration Error) is a primary evaluation metric.
+**Calibration** - CE loss is derived from maximum likelihood estimation under a categorical distribution, which produces better-calibrated probability outputs than MSE. This connects directly to the calibration analysis in [Unsupervised Confidence Estimation](https://github.com/royxforge/unsupervised-confidence-estimation), where ECE (Expected Calibration Error) is a primary evaluation metric.
 
-**Production reliability** - A model trained with MSE may produce confidence scores that are less meaningful than one trained with CE. This is not just a training efficiency issue - it affects every downstream system that consumes model probabilities, including the drift and confidence monitoring in [Production Drift Detection](https://github.com/royxlead/production-drift-detection).
+**Production reliability** - A model trained with MSE may produce confidence scores that are less meaningful than one trained with CE. This is not just a training efficiency issue - it affects every downstream system that consumes model probabilities, including the drift and confidence monitoring in [Production Drift Detection](https://github.com/royxforge/production-drift-detection).
 
 ---
 
 ## Related Work
 
-- [Unsupervised Confidence Estimation](https://github.com/royxlead/unsupervised-confidence-estimation) - How loss function choice affects calibration and uncertainty estimation
-- [Production Drift Detection](https://github.com/royxlead/production-drift-detection) - Production monitoring of model confidence signals
-- [Multi-Objective Feature Selection](https://github.com/royxlead/multi-objective-feature-selection) - Optimization in ML systems
+- [Unsupervised Confidence Estimation](https://github.com/royxforge/unsupervised-confidence-estimation) - How loss function choice affects calibration and uncertainty estimation
+- [Production Drift Detection](https://github.com/royxforge/production-drift-detection) - Production monitoring of model confidence signals
+- [Multi-Objective Feature Selection](https://github.com/royxforge/multi-objective-feature-selection) - Optimization in ML systems
 
 ---
 
@@ -229,12 +229,12 @@ The result connects to broader themes in neural network design:
   author = {Roy, Sourav},
   title  = {Loss Landscape Analysis: MSE vs Cross-Entropy on Classification Tasks},
   year   = {2026},
-  url    = {https://github.com/royxlead/loss-landscape-analysis}
+  url    = {https://github.com/royxforge/loss-landscape-analysis}
 }
 ```
 
 ---
 
 <p align="center">
-  <sub>Built by <a href="https://github.com/royxlead">Sourav Roy</a> · Founding AI/ML Engineer · Yuga AI</sub>
+  <sub>Built by <a href="https://github.com/royxforge">Sourav Roy</a> · Artificial Intelligence Engineer · Accure Inc.</sub>
 </p>
