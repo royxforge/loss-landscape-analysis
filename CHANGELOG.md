@@ -15,7 +15,15 @@ The format adheres to the principles of semantic versioning, with each entry dis
 - CUDA multi-architecture compatibility verification
 - MNIST download caching verification layer
 
-## [1.0.0] — 2026-07-14
+## [1.1.0] - 2026-07-20
+
+### Added
+
+- **Community health files**: Added `CODE_OF_CONDUCT.md` (Contributor Covenant v2.1), `CONTRIBUTING.md` (contribution guidelines with setup, coding standards, and PR process), `SECURITY.md` (vulnerability reporting policy), and `CITATION.cff` (citation metadata for academic attribution). These files establish the project governance and community participation framework.
+
+---
+
+## [1.0.0] - 2026-07-14
 
 ### Summary
 
@@ -35,12 +43,12 @@ Stable release of the Loss Landscape Analysis framework. The repository delivers
 - **Core library modules** (`src/`): A reusable, type-annotated Python package encapsulating the experimental infrastructure.
   - `data.py`: MNIST loading with configurable batch sizes, deterministic seeded shuffling via `torch.Generator`, and a utility for extracting fixed-size batches (`get_small_batch`).
   - `losses.py`: Custom implementations of MSE and Cross-Entropy loss functions with explicit softmax/log-softmax computations, ensuring full transparency of the gradient computation chain. Includes auxiliary functions `softmax`, `log_softmax`, and `to_one_hot`.
-  - `model.py`: `SmallNet` — a fixed three-layer MLP (784 → 128 ReLU → 64 ReLU → 10) with deterministic Xavier-uniform initialization seeded at 42. Provides `get_weights_flat()` for parameter-space analysis and `reset_weights()` for reproducible reinitialization.
+  - `model.py`: `SmallNet` - a fixed three-layer MLP (784 → 128 ReLU → 64 ReLU → 10) with deterministic Xavier-uniform initialization seeded at 42. Provides `get_weights_flat()` for parameter-space analysis and `reset_weights()` for reproducible reinitialization.
   - `trainer.py`: `Trainer` class encapsulating epoch-level training and evaluation loops with per-batch gradient norm capture. Includes `compute_gradient_norm()` for global L₂ gradient magnitude computation.
   - `utils.py`: Reproducibility infrastructure (`set_seed`), JSON serialization/deserialization with NumPy and PyTorch tensor support (`save_results`, `load_results`), metric formatting utilities, and an `EarlyStopping` callback.
 
 - **Visualization subsystem** (`visualizations/`): Publication-quality matplotlib-based plotting with consistent color schemes (MSE: `#E74C3C`, CE: `#2ECC71`), Seaborn styling, and 150 DPI output resolution.
-  - `plots.py`: Six visualization functions — `plot_convergence`, `plot_gradient_norms`, `plot_lr_sensitivity`, `plot_generalization`, `plot_failure_cases`, and `plot_summary_dashboard` — each generating self-contained multi-panel figures saved to the results directory.
+  - `plots.py`: Six visualization functions - `plot_convergence`, `plot_gradient_norms`, `plot_lr_sensitivity`, `plot_generalization`, `plot_failure_cases`, and `plot_summary_dashboard` - each generating self-contained multi-panel figures saved to the results directory.
 
 - **Orchestration script** (`run_all.py`): Sequential execution of all five experiments with automatic plot regeneration from cached JSON results, final summary table computation, and total runtime measurement. Employs `importlib` for dynamic experiment loading.
 
@@ -58,7 +66,7 @@ Stable release of the Loss Landscape Analysis framework. The repository delivers
 
 ### Changed
 
-- **README.md** — Multiple iterative revisions (commits `4aff1d0`, `68b310e`, `814bcf9`, `da610c9`, `e212a53`, `2274622`) progressively enriching the documentation:
+- **README.md** - Multiple iterative revisions (commits `4aff1d0`, `68b310e`, `814bcf9`, `da610c9`, `e212a53`, `2274622`) progressively enriching the documentation:
   - Expanded from a minimal stub into a comprehensive research narrative including a formal research question, quantitative key-results table, full theoretical background with gradient equations, detailed experimental setup table, per-epoch gradient dynamics analysis, installation and usage instructions, and a research context section linking to related work on confidence estimation and production drift detection.
   - Refined terminology from earlier project names to the finalized "Loss Landscape Analysis" branding.
   - Added badge suite (Python 3.10+, PyTorch, MNIST, MIT License), BibTeX citation entry, and structured table of contents.
@@ -74,7 +82,7 @@ Stable release of the Loss Landscape Analysis framework. The repository delivers
 
 ---
 
-## [0.1.0] — 2026-05-20
+## [0.1.0] - 2026-05-20
 
 ### Initial Commit
 
@@ -86,6 +94,7 @@ Initial experimental results, figures, and the comprehensive README documentatio
 
 *All timestamps in Indian Standard Time (UTC+05:30). For a complete list of individual commits, refer to the repository's Git history.*
 
-[Unreleased]: https://github.com/royxforge/loss-landscape-analysis/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/royxforge/loss-landscape-analysis/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/royxforge/loss-landscape-analysis/releases/tag/v1.1.0
 [1.0.0]: https://github.com/royxforge/loss-landscape-analysis/releases/tag/v1.0.0
 [0.1.0]: https://github.com/royxforge/loss-landscape-analysis/releases/tag/v0.1.0

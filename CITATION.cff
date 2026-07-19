@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite it as below."
+authors:
+  - family-names: Roy
+    given-names: Sourav
+    email: royxforge@proton.me
+    orcid: ""
+title: "Loss Landscape Analysis: MSE vs Cross-Entropy on Classification Tasks"
+version: 1.1.0
+date-released: 2026-07-20
+url: "https://github.com/royxforge/loss-landscape-analysis"
+repository-code: "https://github.com/royxforge/loss-landscape-analysis"
+license: MIT
+keywords:
+  - loss landscape
+  - cross-entropy
+  - mean squared error
+  - gradient saturation
+  - MNIST
+  - deep learning
