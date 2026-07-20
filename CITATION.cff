@@ -3,7 +3,7 @@ message: "If you use this software in your research, please cite it as below."
 authors:
   - family-names: Roy
     given-names: Sourav
-    email: royxforge@proton.me
+    email: royxforge@gmail.com
     orcid: ""
 title: "Loss Landscape Analysis: MSE vs Cross-Entropy on Classification Tasks"
 version: 1.1.0
