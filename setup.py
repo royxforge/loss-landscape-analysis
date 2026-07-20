@@ -2,9 +2,10 @@ from setuptools import find_packages, setup
 
 setup(
     name="loss-landscape-analysis",
-    version="1.0.0",
+    version="1.2.0",
     description="Research project analyzing gradient behavior of MSE vs Cross-Entropy on MNIST",
-    packages=find_packages(),
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     include_package_data=True,
     python_requires=">=3.10",
 )

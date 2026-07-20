@@ -23,7 +23,7 @@ Thumbs.db
 .idea/
 
 # Runtime artifacts
-# results/*.json
+results/*.json
 # results/*.png
 # !results/.gitkeep
 

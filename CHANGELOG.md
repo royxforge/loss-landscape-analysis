@@ -6,14 +6,21 @@ The format adheres to the principles of semantic versioning, with each entry dis
 
 ---
 
-## [Unreleased]
+## [1.2.0] - 2026-07-20
 
-### Planned
+### Added
 
-- Integration of `EarlyStopping` callback into experiment scripts
-- Per-sample gradient norm logging for refined saturation analysis
-- CUDA multi-architecture compatibility verification
-- MNIST download caching verification layer
+- **Comprehensive test suite**: Added `tests/` directory with 42 unit tests across five test modules covering model architecture, loss functions, data loading, training logic, and utility functions. All tests pass on CPU without requiring GPU or CUDA.
+  - `tests/test_model.py`: 9 tests validating SmallNet initialization, forward shape, weight flattening, reset reproducibility, gradient flow, and deterministic behavior.
+  - `tests/test_losses.py`: 16 tests verifying custom MSE and Cross-Entropy implementations against PyTorch references, numerical stability for extreme inputs, and the theoretical gradient saturation difference between loss functions.
+  - `tests/test_data.py`: 10 tests for MNIST loading, batch shapes, label types, deterministic shuffling, and `get_small_batch` utility.
+  - `tests/test_trainer.py`: 8 tests for `compute_gradient_norm`, `Trainer` epoch metrics, multi-epoch training convergence, and loss/accuracy improvement tracking.
+  - `tests/test_utils.py`: 17 tests for seed reproducibility, NumPy/PyTorch serialization, result save/load roundtrip, metric formatting, and `EarlyStopping` callback behavior.
+  - `tests/conftest.py`: Shared pytest fixtures providing device detection, sample logits, targets, and images.
+
+### Fixed
+
+- **Package discovery**: `setup.py` now correctly discovers the `src/` package by using `find_packages(where="src")` with an explicit `package_dir={"": "src"}` mapping, resolving an issue where `pip install -e .` would install an empty package.
 
 ## [1.1.0] - 2026-07-20
 
@@ -94,7 +101,8 @@ Initial experimental results, figures, and the comprehensive README documentatio
 
 *All timestamps in Indian Standard Time (UTC+05:30). For a complete list of individual commits, refer to the repository's Git history.*
 
-[Unreleased]: https://github.com/royxforge/loss-landscape-analysis/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/royxforge/loss-landscape-analysis/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/royxforge/loss-landscape-analysis/releases/tag/v1.2.0
 [1.1.0]: https://github.com/royxforge/loss-landscape-analysis/releases/tag/v1.1.0
 [1.0.0]: https://github.com/royxforge/loss-landscape-analysis/releases/tag/v1.0.0
 [0.1.0]: https://github.com/royxforge/loss-landscape-analysis/releases/tag/v0.1.0
