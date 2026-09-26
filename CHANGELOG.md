@@ -8,6 +8,8 @@ The format adheres to the principles of semantic versioning, with each entry dis
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-09-26
+
 ### Fixed
 
 - **Cross-loss convergence comparison** now thresholds on test *accuracy* (first epoch >= 0.97, exp1 + the `run_all.py` summary) instead of a raw loss < 0.5 threshold, which is meaningless when comparing MSE (sum-of-squares scale) against cross-entropy (NLL scale).
