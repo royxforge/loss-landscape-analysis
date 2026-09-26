@@ -6,6 +6,21 @@ The format adheres to the principles of semantic versioning, with each entry dis
 
 ---
 
+## [Unreleased]
+
+### Fixed
+
+- **Cross-loss convergence comparison** now thresholds on test *accuracy* (first epoch >= 0.97, exp1 + the `run_all.py` summary) instead of a raw loss < 0.5 threshold, which is meaningless when comparing MSE (sum-of-squares scale) against cross-entropy (NLL scale).
+- **Determinism**: `SmallNet.reset_weights` uses a local `torch.Generator` instead of `torch.manual_seed`, so model construction no longer clobbers the global seed set by `set_seed`.
+- **exp4 small-sample split** draws a seeded random 1000-sample subset (`randperm`) instead of the first 1000 (ordered) MNIST images.
+- **README** documents the real entry point (`python run_all.py`, per-experiment scripts) instead of the non-existent `loss_analysis.ipynb`, and drops `Jupyter` from the dependency list.
+
+### Changed
+
+- **Packaging**: `setup.py` declares `py_modules` for the flat `src/*.py` modules — `find_packages(where="src")` resolved to `[]`, so `pip install -e .` previously installed an empty distribution.
+
+---
+
 ## [1.2.0] - 2026-07-20
 
 ### Added

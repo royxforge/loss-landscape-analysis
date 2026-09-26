@@ -27,14 +27,17 @@ class SmallNet(nn.Module):
         return torch.cat([param.view(-1) for param in self.parameters()])
 
     def reset_weights(self, seed: int = 42) -> None:
-        """Reinitialize all linear layers with deterministic Xavier-uniform init."""
-        torch.manual_seed(seed)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed_all(seed)
+        """Reinitialize all linear layers with deterministic Xavier-uniform init.
+
+        Uses a local generator so the global torch RNG state (seeded by
+        ``set_seed``) is not clobbered by model construction.
+        """
+        generator = torch.Generator()
+        generator.manual_seed(seed)
 
         for module in self.modules():
             if isinstance(module, nn.Linear):
-                nn.init.xavier_uniform_(module.weight)
+                nn.init.xavier_uniform_(module.weight, generator=generator)
                 nn.init.zeros_(module.bias)
 
 

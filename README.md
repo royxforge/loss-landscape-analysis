@@ -165,8 +165,13 @@ CE gradient norms decrease sharply (1.528 to 0.021) because the model has conver
 ```
 loss-landscape-analysis/
 |
-+-- loss_analysis.ipynb    # Main experiment notebook (all 5 experiments)
++-- run_all.py              # Entry point: runs all 5 experiments + regenerates plots
++-- experiments/            # exp1..exp5 (convergence, gradients, LR, generalization, failures)
++-- src/                    # data / losses / model / trainer / utils
++-- visualizations/         # plotting helpers
++-- tests/                  # pytest suite (test_data, test_losses, ...)
 +-- requirements.txt
++-- setup.py
 +-- LICENSE
 +-- README.md
 ```
@@ -184,19 +189,19 @@ cd loss-landscape-analysis
 pip install -r requirements.txt
 ```
 
-**Core dependencies:** PyTorch · torchvision · Matplotlib · NumPy · Jupyter
+**Core dependencies:** PyTorch · torchvision · Matplotlib · NumPy · seaborn (see `requirements.txt`)
 
 ---
 
 ## Usage
 
 ```bash
-jupyter notebook loss_analysis.ipynb
+python run_all.py
 ```
 
-Run cells sequentially. The notebook is structured into 5 experiments with separate sections for each. All experiments use seed=42 for reproducibility. CUDA is used automatically if available; falls back to CPU.
+`run_all.py` runs the 5 experiments sequentially (each also works standalone, e.g. `python experiments/exp1_convergence.py`), then regenerates every plot from the saved JSON results and prints the final summary table. All experiments use seed=42 for reproducibility. CUDA is used automatically if available; falls back to CPU.
 
-To test a different architecture, modify the MLP definition in the model cell. The training loop, gradient logging, and evaluation code are architecture-agnostic.
+To test a different architecture, edit `src/model.py`. The training loop, gradient logging, and evaluation code are architecture-agnostic.
 
 ---
 

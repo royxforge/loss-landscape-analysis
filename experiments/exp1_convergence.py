@@ -30,9 +30,9 @@ def _run_training(loss_cls, device: str, epochs: int = 30) -> dict:
     return history
 
 
-def _first_epoch_below(values: list[float], threshold: float) -> int | None:
+def _first_epoch_at_or_above(values: list[float], threshold: float) -> int | None:
     for idx, value in enumerate(values, start=1):
-        if value < threshold:
+        if value >= threshold:
             return idx
     return None
 
@@ -55,13 +55,16 @@ def main() -> dict:
         ce_loss = ce_history["test_loss"][idx]
         print(f"Epoch {epoch:02d} | MSE Loss: {mse_loss:.4f} | CE Loss: {ce_loss:.4f}")
 
-    threshold = 0.5
-    mse_hit = _first_epoch_below(mse_history["test_loss"], threshold)
-    ce_hit = _first_epoch_below(ce_history["test_loss"], threshold)
+    # Compare convergence on a loss-scale-invariant metric: first epoch where
+    # test accuracy reaches 0.97. Raw MSE and CE losses live on incomparable
+    # scales, so a fixed loss threshold cannot be applied to both.
+    threshold = 0.97
+    mse_hit = _first_epoch_at_or_above(mse_history["test_accuracy"], threshold)
+    ce_hit = _first_epoch_at_or_above(ce_history["test_accuracy"], threshold)
 
     expectation_holds = ce_hit is not None and (mse_hit is None or ce_hit < mse_hit)
-    print(f"MSE first epoch with test loss < {threshold}: {mse_hit}")
-    print(f"CE first epoch with test loss < {threshold}: {ce_hit}")
+    print(f"MSE first epoch with test accuracy >= {threshold}: {mse_hit}")
+    print(f"CE first epoch with test accuracy >= {threshold}: {ce_hit}")
     print(f"Expectation holds (CE faster than MSE): {expectation_holds}")
     try:
         assert expectation_holds
@@ -70,6 +73,7 @@ def main() -> dict:
         print("Assertion result: FAILED")
 
     return {
+        "accuracy_threshold": threshold,
         "mse_threshold_epoch": mse_hit,
         "ce_threshold_epoch": ce_hit,
         "expectation_holds": expectation_holds,

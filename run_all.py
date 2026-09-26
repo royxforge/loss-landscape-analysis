@@ -40,9 +40,9 @@ def _ascii_header() -> str:
 """
 
 
-def _first_epoch_below(values: list[float], threshold: float) -> int | None:
+def _first_epoch_at_or_above(values: list[float], threshold: float) -> int | None:
     for idx, value in enumerate(values, start=1):
-        if value < threshold:
+        if value >= threshold:
             return idx
     return None
 
@@ -126,9 +126,10 @@ def _print_final_summary_table() -> None:
     try:
         mse_hist = load_results("exp1_mse_history.json")
         ce_hist = load_results("exp1_ce_history.json")
-        mse_epoch = _first_epoch_below(mse_hist["test_loss"], 0.5)
-        ce_epoch = _first_epoch_below(ce_hist["test_loss"], 0.5)
-        print(f"Exp1 | First epoch test loss < 0.5 | MSE: {mse_epoch} | CE: {ce_epoch}")
+        threshold = mse_hist.get("accuracy_threshold", 0.97)
+        mse_epoch = _first_epoch_at_or_above(mse_hist["test_accuracy"], threshold)
+        ce_epoch = _first_epoch_at_or_above(ce_hist["test_accuracy"], threshold)
+        print(f"Exp1 | First epoch test accuracy >= {threshold:g} | MSE: {mse_epoch} | CE: {ce_epoch}")
     except Exception:
         print("Exp1 | Not available")
 

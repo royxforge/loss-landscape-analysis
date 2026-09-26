@@ -19,9 +19,12 @@ from visualizations.plots import plot_generalization
 
 
 def _build_small_train_loader(train_dataset, seed: int = 42) -> DataLoader:
-    subset = Subset(train_dataset, list(range(1000)))
+    # Seeded random subset so the small-sample experiment does not implicitly
+    # train on only the first 1000 (ordered) MNIST images.
     generator = torch.Generator()
     generator.manual_seed(seed)
+    indices = torch.randperm(len(train_dataset), generator=generator).tolist()[:1000]
+    subset = Subset(train_dataset, indices)
     return DataLoader(subset, batch_size=64, shuffle=True, num_workers=0, generator=generator)
 
 
