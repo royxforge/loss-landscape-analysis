@@ -17,7 +17,7 @@ The format adheres to the principles of semantic versioning, with each entry dis
 
 ### Changed
 
-- **Packaging**: `setup.py` declares `py_modules` for the flat `src/*.py` modules — `find_packages(where="src")` resolved to `[]`, so `pip install -e .` previously installed an empty distribution.
+- **Packaging**: `setup.py` declares `py_modules` for the flat `src/*.py` modules -- `find_packages(where="src")` resolved to `[]`, so `pip install -e .` previously installed an empty distribution.
 
 ---
 
