@@ -8,6 +8,10 @@ The format adheres to the principles of semantic versioning, with each entry dis
 
 ## [Unreleased]
 
+### Added
+
+- **`run_all.py` exit status**: the runner now exits with a non-zero status when any experiment fails, so CI and wrapper scripts can detect partial failures (previously it always exited `0`).
+
 ## [1.3.0] - 2026-09-26
 
 ### Fixed

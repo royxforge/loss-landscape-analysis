@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib
+import sys
 import time
 import traceback
 from pathlib import Path
@@ -189,12 +190,18 @@ def main() -> None:
     print(_ascii_header())
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    _run_experiments()
+    status = _run_experiments()
     _regenerate_all_plots()
     _print_final_summary_table()
 
     total_runtime = time.time() - start_total
     print(f"Total runtime: {total_runtime:.2f}s")
+
+    # Surface failures to the shell so CI and wrapper scripts can detect them.
+    failed = sorted(name for name, info in status.items() if not info["ok"])
+    if failed:
+        print(f"\n{len(failed)} experiment(s) failed: {', '.join(failed)}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
