@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import importlib
 import sys
 import time
@@ -48,10 +49,11 @@ def _first_epoch_at_or_above(values: list[float], threshold: float) -> int | Non
     return None
 
 
-def _run_experiments() -> dict:
+def _run_experiments(experiments: list | None = None) -> dict:
     status = {}
+    experiments = EXPERIMENTS if experiments is None else experiments
 
-    for exp_num, exp_name, module_path in EXPERIMENTS:
+    for exp_num, exp_name, module_path in experiments:
         print(f"Running Experiment {exp_num}: {exp_name}...")
         start = time.time()
 
@@ -184,13 +186,98 @@ def _print_final_summary_table() -> None:
     print("-" * 72)
 
 
-def main() -> None:
+def _experiment_key(exp_num: int) -> str:
+    return f"exp{exp_num}"
+
+
+def _parse_selection(raw: str, flag: str) -> set[str]:
+    """Parse a comma-separated experiment list such as ``exp1,3``."""
+    keys = set()
+    for token in raw.split(","):
+        token = token.strip().lower()
+        if not token:
+            continue
+        keys.add(token if token.startswith("exp") else f"exp{token}")
+    if not keys:
+        raise SystemExit(
+            f"{flag} needs at least one experiment id, e.g. {flag} exp1,exp3"
+        )
+    return keys
+
+
+def select_experiments(only: str | None = None, skip: str | None = None) -> list:
+    """Filter ``EXPERIMENTS`` by ``--only``/``--skip`` selections.
+
+    Raises ``SystemExit`` on unknown ids so typos fail fast instead of
+    silently running nothing.
+    """
+    known = {_experiment_key(n) for n, _, _ in EXPERIMENTS}
+    selected = list(EXPERIMENTS)
+
+    for raw, flag in ((only, "--only"), (skip, "--skip")):
+        if not raw:
+            continue
+        keys = _parse_selection(raw, flag)
+        unknown = keys - known
+        if unknown:
+            raise SystemExit(
+                f"unknown experiment(s): {', '.join(sorted(unknown))} "
+                f"(valid: {', '.join(sorted(known))})"
+            )
+        if flag == "--only":
+            selected = [e for e in selected if _experiment_key(e[0]) in keys]
+        else:
+            selected = [e for e in selected if _experiment_key(e[0]) not in keys]
+
+    return selected
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        description="Run the loss-landscape experiments, rebuild plots, and print a summary.",
+        epilog="Available experiments: " + ", ".join(_experiment_key(n) for n, _, _ in EXPERIMENTS),
+    )
+    parser.add_argument(
+        "--only",
+        metavar="IDS",
+        help="Run only these experiments (comma-separated, e.g. --only exp1,exp3).",
+    )
+    parser.add_argument(
+        "--skip",
+        metavar="IDS",
+        help="Skip these experiments (comma-separated, e.g. --skip exp5).",
+    )
+    parser.add_argument(
+        "--plots-only",
+        action="store_true",
+        help="Do not run any experiment; rebuild plots and the summary from saved results.",
+    )
+    args = parser.parse_args(argv)
+
+    # Refuse contradictory selections instead of silently ignoring one of them.
+    if args.plots_only and (args.only or args.skip):
+        raise SystemExit(
+            "--plots-only cannot be combined with --only/--skip "
+            "(no experiment runs in that mode; drop the selection flags)"
+        )
+
+    # Validate the selection before touching the filesystem or running anything.
+    selected = None
+    if not args.plots_only:
+        selected = select_experiments(args.only, args.skip)
+        if not selected:
+            raise SystemExit("the given selection excluded every experiment")
+
     start_total = time.time()
 
     print(_ascii_header())
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    status = _run_experiments()
+    if args.plots_only:
+        print("Plots-only mode: reusing saved results (experiments not re-run).")
+        status: dict = {}
+    else:
+        status = _run_experiments(selected)
     _regenerate_all_plots()
     _print_final_summary_table()
 
@@ -201,8 +288,9 @@ def main() -> None:
     failed = sorted(name for name, info in status.items() if not info["ok"])
     if failed:
         print(f"\n{len(failed)} experiment(s) failed: {', '.join(failed)}")
-        sys.exit(1)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -8,8 +8,11 @@ The format adheres to the principles of semantic versioning, with each entry dis
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-10-13
+
 ### Added
 
+- **Selective experiment runs**: `run_all.py` accepts `--only exp1,exp4` (or `--only 1,4`) to run a subset, `--skip exp2` to exclude specific experiments, and `--plots-only` to regenerate every plot from the saved JSON results without retraining. Re-running one analysis no longer means re-running the whole suite, which matters because the full sequence trains five models. The flags validate their input, list the available experiments in their error message and in `--help`, and cannot be combined with each other (`--only` plus `--plots-only` is rejected rather than silently ignored).
 - **`run_all.py` exit status**: the runner now exits with a non-zero status when any experiment fails, so CI and wrapper scripts can detect partial failures (previously it always exited `0`).
 
 ## [1.3.0] - 2026-09-26

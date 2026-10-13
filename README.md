@@ -196,10 +196,29 @@ pip install -r requirements.txt
 ## Usage
 
 ```bash
+# Everything: 5 experiments, then every plot regenerated from the JSON results
 python run_all.py
+
+# A subset - useful while iterating on one analysis
+python run_all.py --only exp1,exp4
+python run_all.py --skip exp2
+
+# No training at all: redraw every figure from the saved results
+python run_all.py --plots-only
 ```
 
 `run_all.py` runs the 5 experiments sequentially (each also works standalone, e.g. `python experiments/exp1_convergence.py`), then regenerates every plot from the saved JSON results and prints the final summary table. All experiments use seed=42 for reproducibility. CUDA is used automatically if available; falls back to CPU.
+
+Selection flags:
+
+| Flag | Effect |
+|------|--------|
+| `--only exp1,exp4` | Run only the listed experiments (`exp1` or `1` both accepted) |
+| `--skip exp2` | Run everything except the listed experiments |
+| `--plots-only` | Skip all training; regenerate plots from saved results |
+
+The runner exits non-zero when any selected experiment fails, so it can be used
+in CI or in a wrapper script.
 
 To test a different architecture, edit `src/model.py`. The training loop, gradient logging, and evaluation code are architecture-agnostic.
 
