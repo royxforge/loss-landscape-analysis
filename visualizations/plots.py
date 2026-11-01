@@ -38,6 +38,19 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = PROJECT_ROOT / "results"
 
 
+def _boxplot(ax: Any, data: Any, labels: list[str], **kwargs: Any) -> Any:
+    """``Axes.boxplot`` that survives the matplotlib 3.9 keyword rename.
+
+    matplotlib 3.9 renamed ``labels`` to ``tick_labels`` and 3.10 removed the old
+    spelling entirely, which made Experiment 5 and the summary dashboard abort
+    with ``TypeError: unexpected keyword argument 'labels'``.
+    """
+    try:
+        return ax.boxplot(data, tick_labels=labels, **kwargs)
+    except TypeError:  # matplotlib < 3.9
+        return ax.boxplot(data, labels=labels, **kwargs)
+
+
 def _save_figure(fig: plt.Figure, filename: str) -> Path:
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     out_path = RESULTS_DIR / filename
@@ -233,7 +246,7 @@ def plot_failure_cases(failure_data: dict) -> Path:
     axes[1].set_ylabel("Gradient Norm")
     axes[1].legend()
 
-    axes[2].boxplot([mse_grad, ce_grad], labels=["MSE", "CE"], patch_artist=True)
+    _boxplot(axes[2], [mse_grad, ce_grad], ["MSE", "CE"], patch_artist=True)
     axes[2].set_title("Gradient Norm Distribution")
     axes[2].set_ylabel("Gradient Norm")
 
@@ -328,7 +341,7 @@ def plot_summary_dashboard() -> Path:
     if exp5:
         mse_grad = np.array(exp5["mse"]["grad_norms"], dtype=float)
         ce_grad = np.array(exp5["ce"]["grad_norms"], dtype=float)
-        axes[2, 1].boxplot([mse_grad, ce_grad], labels=["MSE", "CE"], patch_artist=True)
+        _boxplot(axes[2, 1], [mse_grad, ce_grad], ["MSE", "CE"], patch_artist=True)
         axes[2, 1].set_title("Exp5: Failure-Case Grads")
 
         summary = exp5.get("summary", {})

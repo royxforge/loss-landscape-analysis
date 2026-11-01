@@ -8,6 +8,14 @@ The format adheres to the principles of semantic versioning, with each entry dis
 
 ## [Unreleased]
 
+### Fixed
+
+- **Convergence claim in the README did not match the committed results**: the text reported MSE first reaching 97% test accuracy at epoch 13, but `results/exp1_mse_history.json` shows epoch 5 (97.15%), against CE at epoch 4 (97.33%) — the same numbers `run_all.py` prints. The headline, key-results table, convergence table and gradient-dynamics text now state the measured values, and the claim was narrowed accordingly: on this task convergence speed is a one-epoch difference, while the 1.7x epoch-1 gradient gap and the 98.06% vs 97.79% endpoint remain the real signal.
+
+### Changed
+
+- **CI no longer validates a notebook that does not exist**: the workflow ran `nbformat.validate(nbformat.read('loss_analysis.ipynb', ...))`, but the repository ships no notebook, so the step failed on every run. The step and its `nbformat` install are removed; the compile and pytest steps are unchanged.
+
 ## [1.4.0] - 2026-10-13
 
 ### Added

@@ -5,10 +5,15 @@
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" />
   <img src="https://img.shields.io/badge/Dataset-MNIST-14b8a6?style=flat-square" />
+  <a href="https://github.com/royxforge/loss-landscape-analysis/actions/workflows/ci.yml"><img src="https://github.com/royxforge/loss-landscape-analysis/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/badge/License-MIT-6366f1?style=flat-square" />
 </p>
 
-> A rigorous empirical comparison of Mean Squared Error (MSE) and Cross-Entropy (CE) loss functions on classification using MNIST. The theoretical argument for preferring CE on classification is well known. This repository makes it concrete, measurable, and reproducible.
+> **The textbook claim that cross-entropy beats MSE on classification, measured rather than asserted.** Same architecture, same data, same seed, 30 epochs each, with every curve and gradient norm committed as JSON and PNG. Runs on CPU in minutes.
+>
+> **Result:** CE reaches 97% test accuracy at **epoch 4**, MSE at **epoch 5**, and CE finishes the 30 epochs higher (98.06% vs 97.79%) — a small endpoint gap, but its epoch-1 gradient norm is **1.7×** larger, which is the saturation effect the theory predicts.
+>
+> **Try it on CPU, no GPU:** `python run_all.py`
 
 ---
 
@@ -44,11 +49,11 @@ The standard explanation is gradient saturation - but at what magnitude, at what
 |---|---|---|
 | Final test accuracy (epoch 30) | **98.06%** | 97.79% |
 | Final train accuracy | **100%** | 99.8% |
-| Epoch to reach 97% test accuracy | **Epoch 4** | Epoch 13 |
+| Epoch to reach 97% test accuracy | **Epoch 4 (97.33%)** | Epoch 5 (97.15%) |
 | Mean gradient norm (epoch 1) | **1.528** | 0.900 |
 | Mean gradient norm (epoch 30) | 0.021 | 0.051 |
 
-**CE reaches 97% accuracy in 4 epochs. MSE takes 13.** Both start above 90% from epoch 1, but MSE falls progressively behind at higher accuracy thresholds - exactly where gradient saturation would predict the gap to emerge.
+**CE reaches 97% accuracy in 4 epochs; MSE takes 5.** Both start above 90% in epoch 1, and both keep improving, but the endpoints differ too: CE finishes at 98.06% against 97.79%. The clearest signal is not the crossing epoch — it is the size of the gradients that get them there.
 
 ---
 
@@ -132,9 +137,9 @@ Note: MSE test loss is lower in absolute terms (0.0348 vs 0.0934) because MSE an
 | Threshold | CE reaches at | MSE reaches at |
 |---|---|---|
 | 90% test accuracy | **Epoch 1 (96.34%)** | Epoch 1 (95.29%) |
-| 97% test accuracy | **Epoch 4 (97.33%)** | Epoch 13 (97.78%) |
+| 97% test accuracy | **Epoch 4 (97.33%)** | Epoch 5 (97.15%) |
 
-Both loss functions clear 90% in the first epoch. The gap appears and widens as the accuracy threshold increases - consistent with the saturation hypothesis. CE is 3.25x faster to reach 97% than MSE on the same architecture.
+Both loss functions clear 90% in the first epoch, and both cross 97% within five epochs, so on this task convergence speed is a weak discriminator: CE is one epoch ahead. What separates them is the trajectory — CE ends 0.27 points higher and reaches its best epoch earlier — and the gradient magnitudes below, which differ by 1.7× at epoch 1.
 
 ---
 
@@ -152,7 +157,7 @@ The gradient norm comparison across training directly confirms the theoretical p
 
 **Reading the table:**
 
-Epochs 1-10: CE gradients are larger, driving faster learning. The 1.70x advantage in epoch 1 is the early-training signal that causes CE to reach 97% accuracy 9 epochs ahead of MSE.
+Epochs 1-10: CE gradients are larger, driving faster initial learning. The 1.70x advantage in epoch 1 is the early-training signal behind CE's head start on the 97% threshold and its higher endpoint.
 
 Epochs 20-30: MSE gradients are now larger than CE gradients. This is not MSE recovering - it is MSE still trying to converge on errors that CE has already resolved. The larger late-training MSE gradients reflect residual error, not learning signal strength.
 
